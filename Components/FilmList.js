@@ -3,6 +3,7 @@
 import React from 'react'
 import { StyleSheet, FlatList } from 'react-native'
 import FilmItem from './FilmItem'
+import FilmSeeingItem from './FilmSeeingItem'
 import { connect } from 'react-redux'
 
 class FilmList extends React.Component {
@@ -21,15 +22,19 @@ class FilmList extends React.Component {
   }
 
  _filmData () {
-     if (this.props.screenType == 1) {
+     if (this.props.screenType === 1) {
        return (this.props.films)
      }
-     else {
+     else if(this.props.screenType === 2) {
        return(this.props.favoritesFilm)
+     }
+     else if(this.props.screenType === 3) {
+       return(this.props.seeingsFilm)
      }
  }
 
   render() {
+    //console.log(this.props)
     return (
         <FlatList
           style={styles.list}
@@ -37,14 +42,24 @@ class FilmList extends React.Component {
 
           extraData={this.props.favoritesFilm}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({item}) => (
-            <FilmItem
-              film={item}
-              //isFilmFavorite={(this.props.favoritesFilm.findIndex(film => film.id === item.id) !== -1) ? true : false}
-              favoritesFilm={this.props.favoritesFilm}
-              displayDetailForFilm={this._displayDetailForFilm}
-            />
-          )}
+          renderItem={({item}) => {
+            if (this.props.screenType !==3 ) {
+              return (<FilmItem
+                film={item}
+                //isFilmFavorite={(this.props.favoritesFilm.findIndex(film => film.id === item.id) !== -1) ? true : false}
+                favoritesFilm={this.props.favoritesFilm}
+                displayDetailForFilm={this._displayDetailForFilm}
+              />)
+            }
+            else {
+              return (<FilmSeeingItem
+                film={item}
+                //isFilmFavorite={(this.props.favoritesFilm.findIndex(film => film.id === item.id) !== -1) ? true : false}
+                favoritesFilm={this.props.favoritesFilm}
+                displayDetailForFilm={this._displayDetailForFilm}
+              />)
+            }
+          }}
           onEndReachedThreshold={0.5}
           onEndReached={() => {
             if (this.props.page < this.props.totalPages) {
@@ -65,7 +80,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    favoritesFilm: state.favoritesFilm
+    favoritesFilm: state.toggleFavorite.favoritesFilm,
+    seeingsFilm: state.toggleseeing.seeingsFilm
   }
 }
 

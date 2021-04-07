@@ -3,8 +3,9 @@
 import React from 'react'
 import {StyleSheet, View, TextInput, Text, Button, FlatList, ActivityIndicator } from 'react-native'
 import FilmList from './FilmList'
-import { getFilmsFromApiWithSearchedText} from '../API/TMDBApi' // import { } from ... car c'est un export nommé dans TMDBApi.js
+//import { getFilmsFromApiWithSearchedText} from '../API/TMDBApi' // import { } from ... car c'est un export nommé dans TMDBApi.js
 import { connect } from 'react-redux'
+import Avatar from './Avatar'
 
 
 class Favorites extends React.Component {
@@ -41,11 +42,16 @@ class Favorites extends React.Component {
   }
 
   render() {
+    //console.log(this.props)
     return (
       <View style={styles.main_container}>
+        <View style={styles.avatar_container}>
+          <Avatar/>
+        </View>
 
         <FilmList
           navigation={this.props.navigation}
+          screenType={2}
           />
         {this._displayLoading()}
       </View>
@@ -57,6 +63,9 @@ const styles = StyleSheet.create({
   main_container: {
     flex: 1,
     marginTop: 10
+  },
+  avatar_container: {
+    alignItems: 'center'
   }
 })
 

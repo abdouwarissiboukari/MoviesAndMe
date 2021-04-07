@@ -8,7 +8,9 @@ import {StyleSheet, Image} from 'react-native'
 import Search from '../Components/Search'
 import FilmDetail from '../Components/FilmDetail'
 import Favorites from '../Components/Favorites'
-import Test from '../Components/Test'
+import News from '../Components/News'
+import Seeings from '../Components/Seeings'
+//import Test from '../Components/Test'
 
 const SearchStackNavigation = createStackNavigator({
   Search: {
@@ -40,6 +42,36 @@ const FavoriteStackNavigation = createStackNavigator({
   }
 })
 
+const NewsStackNavigation = createStackNavigator({
+  News: {
+    screen: News,
+    navigationOptions: {
+      title: 'Dernières sorties'
+    }
+  },
+  FilmDetail: {
+    screen: FilmDetail,
+    navigationOptions: {
+      title: 'Détail du film'
+    }
+  }
+})
+
+const SeeingsStackNavigation = createStackNavigator({
+  Seeings: {
+    screen: Seeings,
+    navigationOptions: {
+      title: 'Déjà vus'
+    }
+  },
+  FilmDetail: {
+    screen: FilmDetail,
+    navigationOptions: {
+      title: 'Détail du film'
+    }
+  }
+})
+
 const MoviesTabNavigator = createBottomTabNavigator({
   /*Test: {
     screen: Test
@@ -61,6 +93,26 @@ const MoviesTabNavigator = createBottomTabNavigator({
       tabBarIcon: () => {
         return <Image
           source={require('../Images/ic_favorite.png')}
+          style={styles.icon} />
+      }
+    }
+  },
+  News: {
+    screen : NewsStackNavigation,
+    navigationOptions: {
+      tabBarIcon: () => {
+        return <Image
+          source={require('../Images/ic_fiber_new.png')}
+          style={styles.icon} />
+      }
+    }
+  },
+  Seeings: {
+    screen : SeeingsStackNavigation,
+    navigationOptions: {
+      tabBarIcon: () => {
+        return <Image
+          source={require('../Images/ic_seeing.png')}
           style={styles.icon} />
       }
     }

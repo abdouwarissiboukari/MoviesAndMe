@@ -1,4 +1,5 @@
 // Components/Search.js
+
 import React from 'react'
 import {StyleSheet, View, TextInput, Text, Button, FlatList, ActivityIndicator } from 'react-native'
 //import films from '../Helpers/filmsData'
@@ -66,10 +67,10 @@ class Search extends React.Component {
     }
   }
 
-  _displayDetailForFilm = (film) => {
+  /*_displayDetailForFilm = (film) => {
     //console.log("Display film with id " + idFilm)
     this.props.navigation.navigate("FilmDetail", {film: film})
-  }
+  }*/
 
   render() {
         //console.log(this.props)
@@ -102,6 +103,11 @@ const styles = StyleSheet.create({
   main_container: {
     flex: 1,
     marginTop: 10
+  },
+  button: {
+    marginLeft: 5,
+    marginRight: 5,
+    borderRadius: 30
   },
   textinput: {
     marginLeft: 5,

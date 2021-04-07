@@ -51,6 +51,12 @@ class FilmDetail extends React.Component {
       this.props.dispatch(action)
   }
 
+  _toggleSeeings() {
+      // Définition de notre action ici
+      const action = { type: "TOGGLE_SEEING", value: this.state.film }
+      this.props.dispatch(action)
+  }
+
   _displayFavoriteImage() {
       var sourceImage = require('../Images/ic_favorite_border.png')
       var shouldEnlarge = false
@@ -67,6 +73,21 @@ class FilmDetail extends React.Component {
           />
         </EnlargeShrink>
       )
+  }
+
+  _displaySeeingTitle() {
+      //console.log(this.state.film)
+
+      if (this.state.film!==undefined && this.props.seeingsFilm.findIndex(item => item.id === this.state.film.id) !== -1) {
+        return (
+          <Button style={styles.button} title='DEJA VU' onPress={() => this._toggleSeeings()}/>
+        )
+      }
+      else {
+        return(
+          <Button style={styles.button} title='NON VU' onPress={() => this._toggleSeeings()}/>
+        )
+      }
   }
 
   _displayFilm() {
@@ -96,7 +117,7 @@ class FilmDetail extends React.Component {
           <Text style={styles.default_text}>Genre(s) : {film.genres.map(function(genre){
             return genre.name}).join(" / ")}</Text>
            {/* Pour l'instant je n'affiche que le titre, je vous laisserais le soin de créer la vue. Après tout vous êtes aussi là pour ça non ? :)*/}
-           <Text style={styles.default_text}>Companie(s) : {film.production_companies.map(function(company){
+          <Text style={styles.default_text}>Companie(s) : {film.production_companies.map(function(company){
              return company.name }).join(" / ")}</Text>
          </ScrollView>
        )
@@ -109,15 +130,14 @@ class FilmDetail extends React.Component {
    }
 
    _displayFloatingActionButton() {
-       const { film } = this.state
-       if (film != undefined && Platform.OS === 'android') { // Uniquement sur Android et lorsque le film est chargé
+       if (this.state.film != undefined && Platform.OS === 'android') { // Uniquement sur Android et lorsque le film est chargé
          return (
            <TouchableOpacity
              style={styles.share_touchable_floatingactionbutton}
              onPress={() => this._shareFilm()}>
              <Image
                style={styles.share_image}
-               source={require('../Images/ic_share.png')} />
+               source={require('../Images/ic_share.android.png')} />
            </TouchableOpacity>
          )
        }
@@ -134,7 +154,8 @@ class FilmDetail extends React.Component {
                            onPress={() => params.shareFilm()}>
                            <Image
                              style={styles.share_image}
-                             source={require('../Images/ic_share.png')} />
+                             source={require('../Images/ic_share.ios.png')} />
+                             const { film } = this.state
                          </TouchableOpacity>
        }
      }
@@ -148,12 +169,13 @@ class FilmDetail extends React.Component {
  }
 
   render() {
-    //console.log(this.props)
+    //console.log("Dans le render : " + this.state.film)
     return (
       <View style={styles.main_container}>
         {this._displayLoading()}
         {this._displayFilm()}
         {this._displayFloatingActionButton()}
+        {this._displaySeeingTitle()}
       </View>
     )
   }
@@ -218,7 +240,8 @@ const styles = StyleSheet.create({
   borderRadius: 30,
   backgroundColor: '#e91e63',
   justifyContent: 'center',
-  alignItems: 'center'
+  alignItems: 'center',
+  marginBottom: 20
 },
 share_image: {
     width: 30,
@@ -226,19 +249,26 @@ share_image: {
   },
 share_touchable_headerrightbutton: {
     marginRight: 8
+  },
+  button: {
+    position: 'absolute',
+    marginLeft: 5,
+    marginRight: 5,
+    borderRadius: 30
   }
 })
 
 const mapStateToProps = (state) => {
   return {
-    favoritesFilm: state.favoritesFilm
+    favoritesFilm: state.toggleFavorite.favoritesFilm,
+    seeingsFilm: state.toggleseeing.seeingsFilm
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+/*const mapDispatchToProps = (dispatch) => {
   return {
     dispatch: (action) => { dispatch(action) }
   }
-}
+}*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilmDetail)
+export default connect(mapStateToProps)(FilmDetail)

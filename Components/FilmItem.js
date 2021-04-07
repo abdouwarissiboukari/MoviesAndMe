@@ -45,9 +45,8 @@ class  FilmItem extends React.Component {
     //console.log(this.props.isFilmFavotite)
 
     const { film, displayDetailForFilm } = this.props
-
+    //console.log(film)
     return(
-
       <FadeIn>
         <TouchableOpacity
           style={styles.main_container}
